@@ -1,0 +1,74 @@
+############################################################
+
+SVM-BPfinder - A tool for mammalian BP prediction. 
+
+Andre Corvelo and Eduardo Eyras | Regulatory Genomics @ Universitat Pompeu Fabra, Barcelona, Spain | 2010 
+
+This tool is free for purpose of academic, non-commercial research. The software must not be further distributed without prior permission of the authors.
+
+CONTACTS:
+    acorvelo[at]gmail.com
+    eduardo.eyras[at]upf.edu
+
+WEB:
+    http://regulatorygenomics.upf.edu/SVM_BP/
+
+REFERENCE:
+    "A. Corvelo, M. Hallegger, C.W.J. Smith, E. Eyras. Genome-wide Association between Branch Point Properties and Alternative Splicing. ... (2010)"   
+
+############################################################
+
+IMPORTANT:
+    SVM_BP requires SVMlight, which can be downloaded at:
+        http://download.joachims.org/svm_light/current/svm_light_linux.tar.gz 
+
+    After downloading SVMlight, copy the 'svm_classify' executable to the SVM_BP 'SCRIPTS/' folder.
+
+    Make sure you have permission to execute:
+        1)'svm_bpfinder.py'
+        2)'SCRIPTS/svm_getfeat.py'
+        3)'SCRIPTS/svm_classify'  
+
+    To know more about SVMlight, please visit http://svmlight.joachims.org/
+
+############################################################
+
+USAGE:
+
+    ./svm_bpfinder.py input_file species slen
+	
+    input_file -> input file name. FASTA format only.
+    species    -> Choose one from the following models: Hsap Ptro Mmul Mmus Rnor Cfam Btau 
+    slen       -> SVM_BPfinder will scan the last [slen] bases of each sequence assuming they correspond to the 3' end of introns.
+                  For sequences of length smaller than [slen], the entire sequence will be scanned.   
+
+OUTPUT:
+    Results are printed to STDOUT, tab delimited, one line per BP candidate. Header included.
+    Output fields:
+        seq_id - Sequence Identifier
+        agez - AG dinucleotide Exclusion Zone length
+        ss_dist - Distance to 3' splice site
+        bp_seq - BP sequence (nonamer; from -5 to +3 relative to the BP adenine)
+        bp_scr - BP sequence score using a variable order Markov model
+        y_cont - Pyrimidine content between the BP adenine and the 3' splice site
+        ppt_off - Polypyrimidine tract offset relative to the BP adenine
+        ppt_len - Polypyrimidine tract length
+        ppt_scr - Polypyrimidine tract score
+        svm_scr - Final BP score using the SVM classifier
+    
+EXAMPLE:
+    The command:
+
+        ./svm_bpfinder.py introns.fa Hsap 300
+
+    scans the 3'-most 300nts of every sequence contained in the FASTA file named 'intron.fa', using a human-specific model ('Hsap').   
+
+NOTE:
+    SVM_BPfinder works by calling two scripts/programs: 
+        1)'SCRIPTS/svm_getfeat.py' - collects features 
+        2)'SCRIPTS/svm_classify'   - scores candidate BPs
+    This creates two files in the working directory, which are removed once the final results are displayed.
+
+    In case it gets interrupted, these two files might be left on your system.  		 
+	
+############################################################
