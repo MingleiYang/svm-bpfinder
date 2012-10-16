@@ -3,7 +3,7 @@ import sys,os,commands,time
 
 ##########################################################################
 base_dir = os.path.dirname(os.path.realpath(__file__))
-print base_dir
+#print base_dir
 
 fname=sys.argv[1]
 species=sys.argv[2]
