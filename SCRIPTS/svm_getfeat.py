@@ -36,7 +36,7 @@ def get_agez(seq,offset=12):
     sseq=seq[:-offset].split('ag')
     return offset+len(sseq[-1])
 
-def get_bps(seq,mindist3ss=15):
+def get_bps(seq,mindist3ss=8):
     bsdict={}
     for x in range(5,len(seq)-(mindist3ss-1)):
         pseq=seq[x-5:x+4]
